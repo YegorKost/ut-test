@@ -26,7 +26,8 @@ public class SaleResponse {
                 writer.flush();
                }
 
-            result = getResponse(httpsCon);
+            String response = getResponse(httpsCon);
+            result = getResponseParameters(response);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -34,7 +35,7 @@ public class SaleResponse {
         return result;
     }
 
-    private Map<String, String> getResponse(HttpsURLConnection httpCon) throws IOException {
+    private String getResponse(HttpsURLConnection httpCon) throws IOException {
         StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(httpCon.getInputStream()))){
             String line;
@@ -42,7 +43,7 @@ public class SaleResponse {
                 sb.append(line);
             }
         }
-        return getResponseParameters(sb.toString());
+        return sb.toString();
     }
 
     private Map<String, String> getResponseParameters(String response) {
